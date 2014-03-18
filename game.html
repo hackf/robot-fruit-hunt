@@ -11,18 +11,19 @@
     if (typeof make_move != 'undefined') {
         Player1.name = name;
         Player1.makeMove = make_move;
-        delete make_move;
-        delete name;
+        make_move = undefined;
+        name = undefined;
     }
 </script>
 <script src="bots/player2.js"></script>
 <script>
     Player2 = {};
+    console.log(make_move);
     if (typeof make_move != 'undefined') {
         Player2.name = name;
         Player2.makeMove = make_move;
-        delete name;
-        delete make_move;
+        name = undefined;
+        make_move = undefined;
     }
 </script>
 <script src="mybot.js"></script>
