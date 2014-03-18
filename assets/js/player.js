@@ -42,7 +42,7 @@ var GamePlay = {
     },
     setupNewGame: function(boardNumber) {
         // Create a new board setup according to the following priority:
-        // 
+        //
         // 1. If a board number is passed in, use that.
         // 2. If the bot has default_board_number() defined, use that.
         // 3. Generate a random board number.
@@ -115,7 +115,7 @@ var GamePlay = {
     displayScore: function(ctx, state) {
         ctx.font = "30px Arial";
         ctx.fillStyle = "#366B76";
-        ctx.fillText("My Bot", 0, 50);
+        ctx.fillText(Player1.name, 0, 50);
         ctx.font = "15px Arial";
         ctx.fillStyle = "#000";
         for (var i=0; i<GamePlay.itemTypeCount; i++) {
@@ -124,7 +124,7 @@ var GamePlay = {
         }
         ctx.font = "30px Arial";
         ctx.fillStyle = "#82298E";
-        ctx.fillText("Simple Bot", 0, 125);
+        ctx.fillText(Player2.name, 0, 125);
         ctx.font = "15px Arial";
         ctx.fillStyle = "#000";
         for (var i=0; i<GamePlay.itemTypeCount; i++) {

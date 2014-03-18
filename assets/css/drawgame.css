@@ -30,6 +30,9 @@
    }
 canvas {
    position:absolute;
-   left:0px;
-   top:0px;
+   left:40px;
+   top:40px;
+}
+body {
+  padding: 40px;
 }

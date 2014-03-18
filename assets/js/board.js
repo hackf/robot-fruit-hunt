@@ -1,5 +1,50 @@
+var HackF = {
+  // Hacked for the St. Clair College Fruitbots
+  // competition, courtesy of Hackforge
+  //   "Have fun!" - Jeff Szusz
+  enableHack: true,
+
+  boardWidth: 10,
+  boardHeight: 10,
+  numberOfItemTypes: 4,
+
+  getBoardWidth: function() {
+    if (this.enableHack) {
+      return this.boardWidth;
+    } else {
+      return Math.min(Math.floor(Board.random() *
+        (Board.max_size-Board.min_size+1)) +
+        Board.min_size, Board.max_size);
+    }
+  },
+
+  getBoardHeight: function() {
+    if (this.enableHack) {
+      return this.boardHeight;
+    } else {
+      return Math.min(Math.floor(Board.random() *
+        (Board.max_size-Board.min_size+1)) +
+        Board.min_size, Board.max_size);
+    }
+  },
+
+  getNumberOfItemTypes: function() {
+    if (this.enableHack) {
+      return this.numberOfItemTypes;
+    } else {
+      return Math.floor(Board.random() * 3 + 3);
+    }
+  }
+};
+
 var Board = {
     init: function(boardNumber) {
+
+        if (!HackF.enableHack) {
+          Player2 = SimpleBot;
+          Player2.name = 'Simple Bot';
+        }
+
         var fullBoard;
         Board.min_size = 5;
         Board.max_size = 15;
@@ -37,8 +82,8 @@ var Board = {
         Board.initRandom(boardNumber);
 
         // initialize board
-        HEIGHT = Math.min(Math.floor(Board.random() * (Board.max_size-Board.min_size+1)) + Board.min_size, Board.max_size);
-        WIDTH = Math.min(Math.floor(Board.random() * (Board.max_size-Board.min_size+1)) + Board.min_size, Board.max_size);
+        HEIGHT = HackF.getBoardHeight();
+        WIDTH = HackF.getBoardWidth();
 
         Board.board = new Array(WIDTH);
 
@@ -60,7 +105,7 @@ var Board = {
 
         // initialize items on board
         do {
-            Board.numberOfItemTypes = Math.floor(Board.random() * 3 + 3);
+            Board.numberOfItemTypes = HackF.getNumberOfItemTypes();
         } while(Board.numberOfItemTypes * Board.numberOfItemTypes >= HEIGHT * WIDTH)
         Board.totalItems = new Array();
         Board.simpleBotCollected = new Array(Board.numberOfItemTypes);
@@ -113,22 +158,24 @@ var Board = {
     processMove: function() {
         Board.move_num++;
         var move_start = new Date().getTime();
-        var myMove = make_move();
+        window.currentPlayer = 1;
+        var myMove = Player1.makeMove();
         var elapsed = ((new Date().getTime() - move_start) / 1000).toFixed(2);
         console.log("["+Board.move_num+"] elapsed time: "+elapsed+"s");
-        var simpleBotMove = SimpleBot.makeMove();
+        window.currentPlayer = 2;
+        var simpleBotMove = Player2.makeMove();
         if ((Board.myX == Board.oppX) && (Board.myY == Board.oppY) && (myMove == TAKE) && (simpleBotMove == TAKE) && Board.board[Board.myX][Board.myY] > 0) {
             Board.myBotCollected[Board.board[Board.myX][Board.myY]-1] = Board.myBotCollected[Board.board[Board.myX][Board.myY]-1] + 0.5;
             Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1] = Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1] + 0.5;
-            Board.board[Board.myX][Board.myY] = 0; 
+            Board.board[Board.myX][Board.myY] = 0;
         } else {
             if (myMove == TAKE && Board.board[Board.myX][Board.myY] > 0) {
                 Board.myBotCollected[Board.board[Board.myX][Board.myY]-1]++;
-                Board.board[Board.myX][Board.myY] = 0; 
+                Board.board[Board.myX][Board.myY] = 0;
             }
             if (simpleBotMove == TAKE && Board.board[Board.oppX][Board.oppY] > 0) {
                 Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1]++;
-                Board.board[Board.oppX][Board.oppY] = 0; 
+                Board.board[Board.oppX][Board.oppY] = 0;
             }
         }
         if (myMove == NORTH) {
@@ -226,7 +273,7 @@ var Board = {
         Board.normalPRNG = Math.random;
     },
     random: function() {
-        // Generate a random number from the board setup 
+        // Generate a random number from the board setup
         // PRNG and then switch Math.random back to the normal PRNG.
         var number;
 
@@ -267,18 +314,22 @@ function get_number_of_item_types() {
 }
 
 function get_my_x() {
+    if (window.currentPlayer == 2) { return Board.oppX; }
     return Board.myX;
 }
 
 function get_my_y() {
+    if (window.currentPlayer == 2) { return Board.oppY; }
     return Board.myY;
 }
 
 function get_opponent_x() {
+    if (window.currentPlayer == 2) { return Board.myY; }
     return Board.oppX;
 }
 
 function get_opponent_y() {
+    if (window.currentPlayer == 2) { return Board.myY; }
     return Board.oppY;
 }
 
