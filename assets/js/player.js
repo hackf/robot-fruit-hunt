@@ -91,12 +91,12 @@ var GamePlay = {
                if (score > 0) {
                    ctx.font = "30px Arial";
                    ctx.fillStyle = "#000";
-                   ctx.fillText("You win!", 0, 275);
+                   ctx.fillText(Player1.name + " wins!", 0, 275);
                }
                if (score < 0) {
                    ctx.font = "30px Arial";
                    ctx.fillStyle = "#000";
-                   ctx.fillText("You lose!", 0, 275);
+                   ctx.fillText(Player2.name + " wins!", 0, 275);
                }
                if (score == 0) {
                    ctx.font = "30px Arial";
