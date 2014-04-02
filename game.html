@@ -1,42 +1,25 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="assets/css/drawgame.css"/>
+<script src="assets/js/lodash.js"></script>
 <script src="assets/js/seedrandom.js"></script>
 <script src="assets/js/board.js"></script>
 <script src="assets/js/grid.js"></script>
 <script src="assets/js/simplebot.js"></script>
+<script src="assets/js/hackery.js"></script>
 <script src="bots/player1.js"></script>
 <script>
-    Player1 = {};
-    if (typeof make_move != 'undefined') {
-        Player1.name = name;
-        Player1.makeMove = make_move;
-        make_move = undefined;
-        name = undefined;
-    }
+    Player1 = {name: name};
+    initHackery(Player1);
+    Player1.makeMove = Player1.make_move;
 </script>
 <script src="bots/player2.js"></script>
 <script>
-    Player2 = {};
-    console.log(make_move);
-    if (typeof make_move != 'undefined') {
-        Player2.name = name;
-        Player2.makeMove = make_move;
-        name = undefined;
-        make_move = undefined;
-    }
+    Player2 = {name: name};
+    initHackery(Player2);
+    Player2.makeMove = Player2.make_move;
 </script>
 <script src="mybot.js"></script>
-<script>
-    if (typeof Player1.makeMove == 'undefined') {
-        Player1.makeMove = make_move;
-        Player1.name = 'My Bot';
-    }
-    if (typeof Player2.makeMove == 'undefined') {
-        Player2 = SimpleBot;
-        Player2.name = 'Simple Bot';
-    }
-</script>
 <script src="assets/js/player.js"></script>
 <script src="assets/js/jquery.min.js"></script>
 </head>
