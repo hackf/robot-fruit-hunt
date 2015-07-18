@@ -119,7 +119,7 @@ var GamePlay = {
         ctx.font = "15px Arial";
         ctx.fillStyle = "#000";
         for (var i=0; i<GamePlay.itemTypeCount; i++) {
-            ctx.fillText(Board.myBotCollected[i].toFixed(1), 50*i, 75);
+            ctx.fillText(Board.myCollected[i].toFixed(1), 50*i, 75);
             ctx.drawImage(GamePlay.itemImages[i], 52*i+15, 55, 25, 25);
         }
         ctx.font = "30px Arial";
@@ -128,7 +128,7 @@ var GamePlay = {
         ctx.font = "15px Arial";
         ctx.fillStyle = "#000";
         for (var i=0; i<GamePlay.itemTypeCount; i++) {
-            ctx.fillText(Board.simpleBotCollected[i].toFixed(1), 50*i, 150);
+            ctx.fillText(Board.oppCollected[i].toFixed(1), 50*i, 150);
             ctx.drawImage(GamePlay.itemImages[i], 52*i+15, 130, 25, 25);
         }
         ctx.font = "30px Arial";
@@ -137,7 +137,7 @@ var GamePlay = {
         ctx.font = "15px Arial";
         ctx.fillStyle = "#000";
         for (var i=0; i<GamePlay.itemTypeCount; i++) {
-            ctx.fillText((Board.totalItems[i]-Board.myBotCollected[i]-Board.simpleBotCollected[i]).toFixed(1), 50*i, 225);
+            ctx.fillText((Board.totalItems[i]-Board.myCollected[i]-Board.oppCollected[i]).toFixed(1), 50*i, 225);
             ctx.drawImage(GamePlay.itemImages[i], 52*i+15, 205, 25, 25);
         }
     },

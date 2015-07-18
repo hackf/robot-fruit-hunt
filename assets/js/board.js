@@ -108,13 +108,13 @@ var Board = {
             Board.numberOfItemTypes = HackF.getNumberOfItemTypes();
         } while(Board.numberOfItemTypes * Board.numberOfItemTypes >= HEIGHT * WIDTH);
         Board.totalItems = new Array();
-        Board.simpleBotCollected = new Array(Board.numberOfItemTypes);
-        Board.myBotCollected = new Array(Board.numberOfItemTypes);
+        Board.oppCollected = new Array(Board.numberOfItemTypes);
+        Board.myCollected = new Array(Board.numberOfItemTypes);
         var x;
         var y;
         for (var i=0; i<Board.numberOfItemTypes; i++) {
-            Board.myBotCollected[i] = 0;
-            Board.simpleBotCollected[i] = 0;
+            Board.myCollected[i] = 0;
+            Board.oppCollected[i] = 0;
             Board.totalItems[i] = i * 2 + 1;
             for (var j=0; j<Board.totalItems[i]; j++) {
                 do {
@@ -175,16 +175,16 @@ var Board = {
         console.log("["+Board.move_num+"] elapsed time: "+elapsed+"s");
         savePlayerScope(Player2);
         if ((Board.myX == Board.oppX) && (Board.myY == Board.oppY) && (myMove == TAKE) && (simpleBotMove == TAKE) && Board.board[Board.myX][Board.myY] > 0) {
-            Board.myBotCollected[Board.board[Board.myX][Board.myY]-1] = Board.myBotCollected[Board.board[Board.myX][Board.myY]-1] + 0.5;
-            Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1] = Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1] + 0.5;
+            Board.myCollected[Board.board[Board.myX][Board.myY]-1] = Board.myCollected[Board.board[Board.myX][Board.myY]-1] + 0.5;
+            Board.oppCollected[Board.board[Board.oppX][Board.oppY]-1] = Board.oppCollected[Board.board[Board.oppX][Board.oppY]-1] + 0.5;
             Board.board[Board.myX][Board.myY] = 0;
         } else {
             if (myMove == TAKE && Board.board[Board.myX][Board.myY] > 0) {
-                Board.myBotCollected[Board.board[Board.myX][Board.myY]-1]++;
+                Board.myCollected[Board.board[Board.myX][Board.myY]-1]++;
                 Board.board[Board.myX][Board.myY] = 0;
             }
             if (simpleBotMove == TAKE && Board.board[Board.oppX][Board.oppY] > 0) {
-                Board.simpleBotCollected[Board.board[Board.oppX][Board.oppY]-1]++;
+                Board.oppCollected[Board.board[Board.oppX][Board.oppY]-1]++;
                 Board.board[Board.oppX][Board.oppY] = 0;
             }
         }
@@ -238,8 +238,8 @@ var Board = {
             item_type_score_min = 0;
         var item_types_left = Board.numberOfItemTypes;
         for (var i=0; i < Board.numberOfItemTypes; i++) {
-            var diff = Board.myBotCollected[i] - Board.simpleBotCollected[i];
-            var numleft = Board.totalItems[i] - Board.myBotCollected[i] - Board.simpleBotCollected[i];
+            var diff = Board.myCollected[i] - Board.oppCollected[i];
+            var numleft = Board.totalItems[i] - Board.myCollected[i] - Board.oppCollected[i];
             var item_score_max = diff + numleft;
             var item_score_min = diff - numleft;
             if (item_score_min == 0 && item_score_max == 0) { // tie
@@ -344,11 +344,13 @@ function get_opponent_y() {
 }
 
 function get_my_item_count(type) {
-    return Board.myBotCollected[type-1];
+    if (window.currentPlayer == 2) { return Board.oppCollected[type-1]; }
+    return Board.myCollected[type-1];
 }
 
 function get_opponent_item_count(type) {
-    return Board.simpleBotCollected[type-1];
+    if (window.currentPlayer == 2) { return Board.myCollected[type-1]; }
+    return Board.oppCollected[type-1];
 }
 
 function get_total_item_count(type) {
